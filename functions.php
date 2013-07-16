@@ -6,8 +6,18 @@ function ApplyWatermark($image,$text,$action,$gameName)
 // Load the stamp and the photo to apply the watermark to
 $RawImage = 'watermark/'.basename($image);
 copy($image,$RawImage);
+$imageSize = getimagesize($RawImage);
     $stamp = imagecreatefrompng(WATERMARK_IMAGE);
-    $im = imagecreatefrompng($RawImage);
+    switch($imageSize['mime']) {
+    case 'image/jpg':
+    case 'image/jpeg':
+       $im = imagecreatefromjpeg($RawImage);
+    break;
+    case 'image/png':
+       $im = imagecreatefrompng($RawImage);
+       break;
+ }
+    //$im = imagecreatefrompng($RawImage);
 // Set the margins for the stamp and get the height/width of the stamp image
     $marge_left = 0;
    // $marge_top = 100;
@@ -16,7 +26,7 @@ copy($image,$RawImage);
     $black = imagecolorallocate($im, 0xFF, 0xFF, 0xFF);
 // Path to our ttf font file
     $font_file = 'futura_condensed.ttf';
-    $imageSize = getimagesize($RawImage);
+    
 
     imagecopy($im, $stamp, $marge_left,  $imageSize[1]/2-imagesy($stamp)/2, 0, 0, $sx, $sy);
     //$text = "MICROMAX CANVAS 4 A210 UNBOXING";
@@ -86,8 +96,18 @@ function ApplyComparisonWatermark($image,$text,$text2)
 // Load the stamp and the photo to apply the watermark to
 $RawImage = 'watermark/'.basename($image);
 copy($image,$RawImage);
+    $imageSize = getimagesize($RawImage);
     $stamp = imagecreatefrompng(WATERMARK_IMAGE);
-    $im = imagecreatefrompng($RawImage);
+    switch($imageSize['mime']) {
+    case 'image/jpg':
+    case 'image/jpeg':
+       $im = imagecreatefromjpeg($RawImage);
+    break;
+    case 'image/png':
+       $im = imagecreatefrompng($RawImage);
+       break;
+ }
+    //$im = imagecreatefrompng($RawImage);
 // Set the margins for the stamp and get the height/width of the stamp image
     $marge_left = 0;
     //$marge_top = 100;
@@ -96,7 +116,6 @@ copy($image,$RawImage);
     $black = imagecolorallocate($im, 0xFF, 0xFF, 0xFF);
 // Path to our ttf font file
     $font_file = 'futura_condensed.ttf';
-    $imageSize = getimagesize($RawImage);
 
     imagecopy($im, $stamp, $marge_left,  $imageSize[1]/2-imagesy($stamp)/2, 0, 0, $sx, $sy);
     //$text = "MICROMAX CANVAS 4 A210 UNBOXING";

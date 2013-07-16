@@ -5,12 +5,12 @@ if(isset($_FILES['photoUpload'])){
     
     $uploadfile = preg_replace('/\s+/', '-', basename($_FILES['photoUpload']['name']));
     if (file_exists(UPLOAD_FOLDER) && is_writable(UPLOAD_FOLDER)) {              
-                   $allowedexts = array('png');                   
+                   $allowedexts = array('png','jpg','jpeg');                   
                     $image_name = pathinfo($_FILES['photoUpload']['name']);
                     $extension = strtolower($image_name['extension']);
                     $size = getimagesize($_FILES['photoUpload']['tmp_name']);
                     $type = $size['mime'];
-                    if(($type == "image/png")&& in_array($extension,$allowedexts))
+                    if(($type == "image/jpeg" ||$type == "image/png")&& in_array($extension,$allowedexts))
                     {
                         $today = date("Y-m-d").'/';
                         if(!file_exists(UPLOAD_FOLDER.$today)){
@@ -62,8 +62,8 @@ $(document).ready(function()
 {
 $('button#submit').click(function(){
 var ext = $('#photoUpload').val().split('.').pop().toLowerCase();
-if($.inArray(ext, ['png']) == -1) {
-    alert('Invalid extension! Use only PNG images!');
+if($.inArray(ext, ['png','jpg','jpeg']) == -1) {
+    alert('Invalid extension! Use only JPG and PNG images!');
 	return false;
 }
 });
